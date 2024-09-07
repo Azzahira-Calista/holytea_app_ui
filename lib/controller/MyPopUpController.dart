@@ -12,30 +12,26 @@ class MyCustomPopUpController extends GetxController {
   final CartController cartController = Get.put(CartController());
   final CounterController counterController = Get.put(CounterController());
 
-  void showCustomModalForItem(HolyteaModel product,BuildContext context) {
-
+  void showCustomModalForItem(HolyteaModel product, BuildContext context) {
     showModalBottomSheet(
-      context:context,
-
-      isScrollControlled:true,
-      builder: (BuildContext context) =>
-        MyCustomPopUp(product: product),
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) => MyCustomPopUp(product: product),
     );
     counterController.reset();
   }
 
   void addToCart(HolyteaModel product) {
     cartController.addToCart(CartItem(
-      productId: product.id,
+      productId: product.id.obs,
       productName: product.name,
       price: product.price,
-      quantity: counterController.quantity?.value ?? 0,
+      quantity: counterController.quantity.value.obs,
       productImage: product.image,
     ));
     counterController.reset();
     print('Item added to cart');
-    Get.to(() => CartPage());
+    Get.off(() => CartPage());
     print('Navigating to CartPage');
   }
-
 }

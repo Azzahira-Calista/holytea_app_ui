@@ -8,17 +8,20 @@ figmaFontsize(int fontSize) {
 
 //COLOR
 const Color primaryColor = Color(0xFF68AD50);
-
+const Color trackcolor = Color.fromARGB(255, 53, 195, 40);
+const Color newPrimaryColor = Color.fromARGB(255, 38, 160, 52);
+const Color trackcolor2 = Color.fromARGB(255, 38, 230, 21);
 const Color primaryTextColor = Colors.white;
 Color secondaryColor = Colors.black;
 const Color bgColor = Color.fromARGB(255, 243, 255, 238);
 const Color colorText = Color.fromARGB(255, 137, 137, 137);
 const Color bgColorLogin_Register = Color.fromARGB(127, 217, 217, 217);
 Color secondaryBGColor = Color.fromARGB(255, 217, 217, 217); //#D9D9D9
+Color newsecondaryBGColor = Color.fromARGB(255, 210, 210, 210); //#D2D2D2
 Color primaryTransColor = Color.fromARGB(177, 104, 173, 80);
 //Button Style
 ButtonStyle customButtonStyle = ButtonStyle(
-  backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+  backgroundColor: MaterialStateProperty.all<Color>(newPrimaryColor),
   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
     EdgeInsets.only(top: 15, bottom: 15),
   ),
@@ -84,9 +87,20 @@ TextStyle btnlogin = GoogleFonts.inter(
 
 TextStyle btnsignup = GoogleFonts.inter(
     textStyle: TextStyle(
-        color: secondaryColor,
+        color: Colors.black,
         fontWeight: FontWeight.w700,
         fontSize: figmaFontsize(24)));
+
+TextStyle newtextlogin = GoogleFonts.montserrat(
+    textStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+        fontSize: figmaFontsize(24)));
+TextStyle newtextloginsecondary = GoogleFonts.montserrat(
+    textStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        fontSize: figmaFontsize(20)));
 
 TextStyle specialText = GoogleFonts.inter(
     textStyle: TextStyle(
@@ -120,17 +134,36 @@ TextStyle contentText = GoogleFonts.inter(
 TextStyle contentTextGrey = GoogleFonts.inter(
     textStyle: TextStyle(
   color: colorText,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.normal,
 ));
 TextStyle contentTextVer3 = GoogleFonts.inter(
     textStyle: TextStyle(
         color: secondaryColor,
         fontWeight: FontWeight.w700,
-        fontSize: figmaFontsize(14)));
+        fontSize: figmaFontsize(17)));
+
+TextStyle newcontentTextVer3 = GoogleFonts.montserrat(
+    textStyle: TextStyle(
+        color: secondaryColor,
+        fontWeight: FontWeight.w700,
+        fontSize: figmaFontsize(15)));
+
+TextStyle newcontentTextVer03 = GoogleFonts.montserrat(
+    textStyle: TextStyle(
+        color: secondaryColor,
+        fontWeight: FontWeight.w400,
+        fontSize: figmaFontsize(13)));
+
 TextStyle contentTextVer4 = GoogleFonts.inter(
     textStyle: TextStyle(
         color: primaryTextColor,
         fontWeight: FontWeight.w700,
+        fontSize: figmaFontsize(14)));
+
+TextStyle regulerWhite = GoogleFonts.inter(
+    textStyle: TextStyle(
+        color: primaryTextColor,
+        fontWeight: FontWeight.normal,
         fontSize: figmaFontsize(14)));
 
 TextStyle contentTextVer2 = GoogleFonts.inter(
@@ -168,10 +201,13 @@ TextStyle normalFontBlFigma = GoogleFonts.inter(
     textStyle: TextStyle(color: colorText, fontSize: figmaFontsize(20)));
 
 TextStyle normalFontBlFigma2 = GoogleFonts.inter(
-    textStyle: TextStyle(color: colorText, fontSize: figmaFontsize(14)));
+    textStyle: TextStyle(color: colorText, fontSize: figmaFontsize(17)));
+
+TextStyle normalFontBlFigmagrey = GoogleFonts.inter(
+    textStyle: TextStyle(color: colorText, fontSize: figmaFontsize(17)));
 
 TextStyle normalFontBlFigmaBlack = GoogleFonts.inter(
-    textStyle: TextStyle(color: secondaryColor, fontSize: figmaFontsize(14)));
+    textStyle: TextStyle(color: secondaryColor, fontSize: figmaFontsize(17)));
 
 //IMAGE ASSETS
 String image_awal_set = "assets/image_awal_set.png";
@@ -182,3 +218,7 @@ String profile = "assets/profile.png";
 String ads_1 = "assets/ads_1.png";
 String ads_2 = "assets/ads_2.png";
 String dark_choco = "assets/dark_choco.png";
+String image_placeholder = "assets/image_placeholder.png";
+String image_cart = "assets/cartimage.png";
+String tracklocatiom = "assets/tracklocation.png";
+String wallet = "assets/dompet.png";

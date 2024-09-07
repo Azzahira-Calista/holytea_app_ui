@@ -31,11 +31,37 @@ class MyCustomPopUp extends StatelessWidget {
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.25,
+              width: 320,
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    width: 320,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      child: FadeInImage(
+                        placeholder: AssetImage(image_placeholder),
+                        image: NetworkImage(product.image),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 5,
+                    right: 8,
+                    child: Container(
+                        child: FavoriteIcon()
+                    ),
+                  ),
+                ],
+              ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                image: DecorationImage(
-                  image: NetworkImage(product.image),
-                  fit: BoxFit.cover,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
                 ),
               ),
             ),
@@ -47,15 +73,7 @@ class MyCustomPopUp extends StatelessWidget {
                   product.name,
                   style: primaryTextBl,
                 ),
-                Transform.scale(
-                  scale: 1,
-                  child: Container(
-                    padding: EdgeInsets.only(right: 16, top: 5),
-                    width: 55,
-                    height: 40,
-                    child: FavoriteIcon(),
-                  ),
-                ),
+
               ],
             ),
             SizedBox(height: 20),
@@ -63,7 +81,9 @@ class MyCustomPopUp extends StatelessWidget {
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //Counter Widget
                   CounterWidget(),
+
                   Obx(() => Container(
                     child: Text(
                       "Rp " + (controllerCounter.quantity.value * product.price).toString(),

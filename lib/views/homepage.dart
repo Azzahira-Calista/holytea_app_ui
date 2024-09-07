@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:holytea_slicing_ui/views/messagelist.dart';
+import 'package:holytea_slicing_ui/widgets/cardwidget.dart';
 import '../controller/MyPopUpController.dart';
 import '../controller/controller.dart';
 import '../utils/themes.dart';
@@ -10,6 +11,7 @@ import '../widgets/adsTranslation.dart';
 import '../widgets/ewallet.dart';
 import '../widgets/loveWidget.dart';
 import 'cartpage.dart';
+import 'locationpage.dart';
 import 'menupage.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,32 +22,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Title(
-          color: Colors.white,
-          child: Container(
-            margin: EdgeInsets.only(left: 0),
-            child: Image(
-              image: AssetImage(image_logo_holytea),
-              width: 100,
-              height: 40,
-            ),
-          ),
-        ),
-      ),
+      backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.only(left: 25,right: 25),
+        padding: EdgeInsets.only(left: 25, right: 25),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-                Container(
-                  margin: EdgeInsets.only(top: 40),
-                  child: eWallet(),
-                ),
-
-
+              Container(
+                margin: EdgeInsets.only(top: 40),
+                child: eWallet(),
+              ),
               Container(
                 width: 340,
                 margin: EdgeInsets.only(top: 30),
@@ -64,7 +51,6 @@ class HomePage extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               image: DecorationImage(
-
                                 image: AssetImage(i),
                                 fit: BoxFit.cover,
                               ),
@@ -88,17 +74,16 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-
-
-
+              SizedBox(height: 20,),
               Container(
-                margin: EdgeInsets.only(top: 30,right: 200 ),
+                margin: EdgeInsets.only(top: 30, right: 200),
                 child: Text(
-                  "Best Seller",
+                  "Founder Picks",
                   style: subHeaderText,
                   textAlign: TextAlign.start,
                 ),
               ),
+              SizedBox(height: 20,),
               Obx(() {
                 if (controller.isLoading.value) {
                   return CircularProgressIndicator();
@@ -110,76 +95,49 @@ class HomePage extends StatelessWidget {
                   if (ratedProducts.isEmpty) {
                     return Text("Item Not Available");
                   } else {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: ratedProducts.map((product) {
-                          return Container(
-                            width: 200, // Set a fixed width for each card
-                            margin: EdgeInsets.only(
-                                left: 8, right: 8, top: 8, bottom: 60),
-                            child:  GestureDetector(
-                              onTap: () {
-                                myCustomPopUpController.showCustomModalForItem(product,context);
-                              },
-                              child: Card(
-                                elevation: 2,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width:
-                                          200, // Set a fixed width for the image container
-                                      height:
-                                          120, // Set a fixed height for the image container
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(product.image),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10),
-                                          topLeft: Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.only(
-                                            left: 145,
-                                            bottom: 75,
-                                            top: 5,
-                                            right: 7),
-                                        child: FavoriteIcon(),
-                                      ),
-                                    ),
-                                    ListTile(
-                                      title: Text(product.name,
-                                          style: normalFontBlFigmaBlack),
-                                      subtitle: RatingBar.builder(
-                                        initialRating: product.rating,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 15,
-                                        itemPadding:
-                                            EdgeInsets.symmetric(horizontal: 1.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (double rating) {
-                                          print(null);
-                                        },
-                                      ),
-                                      trailing: Icon(Icons.shopping_cart_outlined,
-                                          color: Colors.green),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
+                    return Container(
+                      height: 200,
+                      child: ListView.separated(itemBuilder: (context, index) {
+                        final filteredProductList = controller.holytea.value.where((element) => element.price > 10000,).toList();
+                        final produk = filteredProductList[index];
+                        return SizedBox(
+                          width: 170,
+                            child: CardWidget(produk: produk,width: 170.0,));
+                      },scrollDirection: Axis.horizontal, separatorBuilder: (context, index) {
+                        return SizedBox(width: 10,);
+                      }, itemCount: controller.holytea.value.where((element) => element.price > 10000,).length),
+                    );
+                  }
+                }
+              }),
+              SizedBox(height: 20,),
+              Container(
+                child: Text(
+                  "Best Seller",
+                  style: subHeaderText,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              SizedBox(height: 20,),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return CircularProgressIndicator();
+                } else {
+                  final ratedProducts = controller.displayedData
+                      .where((product) => product.rating >= 4.5)
+                      .toList();
+
+                  if (ratedProducts.isEmpty) {
+                    return Text("Item Not Available");
+                  } else {
+                    return Container(
+                      height: 200,
+                      child: ListView.separated(itemBuilder: (context, index) {
+                        final produk = ratedProducts[index];
+                        return SizedBox(width: 170, child: CardWidget(produk: produk,width: 170.0,));
+                      },scrollDirection: Axis.horizontal, separatorBuilder: (context, index) {
+                        return SizedBox(width: 10,);
+                      }, itemCount: controller.holytea.value.where((element) => element.price > 10000,).length),
                     );
                   }
                 }
@@ -189,8 +147,10 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+
         items: [
           BottomNavigationBarItem(
+            backgroundColor: Colors.white,
             icon: Icon(Icons.home, color: Colors.green),
             label: "home",
           ),
@@ -201,7 +161,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Get.off(() => Menupage());
                 },
-                icon: Icon(Icons.menu_book,  color: colorText),
+                icon: Icon(Icons.menu_book, color: colorText),
               ),
             ),
             label: "menu",
